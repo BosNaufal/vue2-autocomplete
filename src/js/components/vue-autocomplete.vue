@@ -10,7 +10,8 @@
             @dblclick="showAll"
             @blur="hideAll"
             @keydown="keydown"
-            @focus="focus" />
+            @focus="focus"
+            autocomplete="off" />
 
     <div :class="(className ? className + '-list ' : '') + 'autocomplete transition autocomplete-list'" v-show="showList">
       <ul>
