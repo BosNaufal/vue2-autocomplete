@@ -3,7 +3,7 @@ Autocomplete Component For [Vue 2](http://vuejs.org). It's based on [vue-autocom
 
 <p align="center">
   <a href="./" title="Vue Autocomplete">
-    <img src="./demo.gif" alt="vue Autocomplete component" title="Vue Autocomplete Component"/>
+    <img src="./src/img/demo.gif" alt="vue Autocomplete component" title="Vue Autocomplete Component"/>
   </a>
 </p>
 
