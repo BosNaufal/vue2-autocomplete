@@ -1,6 +1,6 @@
 {
   "name": "vue2-autocomplete-js",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Autocomplete Component for Vue 2",
   "main": "./src/js/components/vue-autocomplete.vue",
   "scripts": {
