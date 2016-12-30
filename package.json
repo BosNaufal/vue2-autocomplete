@@ -1,15 +1,13 @@
 {
   "name": "vue2-autocomplete-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Autocomplete Component for Vue 2",
   "main": "./src/js/components/vue-autocomplete.vue",
-
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack/webpack.config.js --inline --hot",
     "build": "webpack --config ./webpack/webpack-prod.config.js -p",
     "bundle": "webpack --config ./webpack/webpack-bundle.config.js -p"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BosNaufal/vue2-autocomplete.git"
