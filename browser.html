@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue 2 Autocomplete (Browser Version)</title>
+  <link rel="stylesheet" href="./dist/style/vue2-autocomplete.css">
+</head>
+<body>
+
+
+  <div id="app">
+    <autocomplete
+      url="http://localhost/proyek/goodmovie/api/api/v1/search"
+      :custom-params="{ token: 'dev' }"
+      anchor="title"
+      label="writer"
+      :on-select="getData" >
+    </autocomplete>
+  </div>
+
+  <script src="https://vuejs.org/js/vue.js"></script>
+  <script src="./dist/vue2-autocomplete.js"></script>
+  <script>
+    new Vue({
+      el: "#app",
+
+      components: {
+        autocomplete: Vue2Autocomplete
+      },
+
+      methods: {
+        getData(data) {
+          console.log(data);
+        }
+      }
+
+    })
+  </script>
+</body>
+</html>
