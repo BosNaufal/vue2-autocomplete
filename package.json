@@ -2,7 +2,7 @@
   "name": "vue2-autocomplete-js",
   "version": "0.0.3",
   "description": "Autocomplete Component for Vue 2",
-  "main": "./src/js/components/vue-autocomplete.vue",
+  "main": "./dist/vue2-autocomplete.js",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack/webpack.config.js --inline --hot",
     "build": "webpack --config ./webpack/webpack-prod.config.js -p",
