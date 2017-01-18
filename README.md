@@ -32,7 +32,7 @@ Or Just put it after Vue JS~
 ## Import Style
 Don't forget to import vue 2 css. You can link it via html
 ```html
-<link rel="stylesheet" href="vue2-autocomplete/dist/style/vue2-autocomplete.css">
+<link rel="stylesheet" href="vue2-autocomplete-js/dist/style/vue2-autocomplete.css">
 ```
 
 Or You can import it using commonJS
