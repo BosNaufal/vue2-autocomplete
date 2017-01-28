@@ -18,14 +18,17 @@
         <li v-for="(data, i) in json"
             transition="showAll"
             :class="activeClass(i)">
-
-          <a  href="#"
+          <a v-if="!template" href="#"
               @click.prevent="selectList(data)"
               @mousemove="mousemove(i)">
             <b>{{ data[anchor] }}</b>
             <span>{{ data[label] }}</span>
           </a>
-
+          <a v-if="template" href="#"
+            @click.prevent="selectList(data)"
+            @mousemove="mousemove(i)"
+            v-html="template(data)">
+          </a>
         </li>
       </ul>
     </div>
@@ -84,6 +87,9 @@
         type: Number,
         default: 0
       },
+
+      // Create a custom template from data.
+      template: Function,
 
       // Callback
       onInput: Function,
@@ -241,7 +247,6 @@
 
           ajax.addEventListener('progress', function (data) {
             if(data.lengthComputable){
-
               // Callback Event
               this.onAjaxProgress ? this.onAjaxProgress(data) : null
             }
