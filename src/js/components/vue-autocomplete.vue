@@ -85,6 +85,9 @@
         default: 0
       },
 
+      // Process the result before retrieveng the result array.
+      process: Function,
+
       // Callback
       onInput: Function,
       onShow: Function,
@@ -253,7 +256,7 @@
             // Callback Event
             this.onAjaxLoaded ? this.onAjaxLoaded(json) : null
 
-            self.json = json;
+            self.json = self.process ? self.process(json) : json;
           });
 
         }
