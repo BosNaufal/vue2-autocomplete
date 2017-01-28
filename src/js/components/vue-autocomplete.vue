@@ -42,6 +42,29 @@
   *
   */
 
+  /*!
+  *  javascript-debounce 1.0.0
+  *
+  *  A lightweight, dependency-free JavaScript module for debouncing functions based on David Walsh's debounce function.
+  *
+  *  Source code available at: https://github.com/jgarber623/javascript-debounce
+  *
+  *  (c) 2015-present Jason Garber (http://sixtwothree.org)
+  *
+  *  javascript-debounce may be freely distributed under the MIT license.
+  */
+
+  var debounce = function(callback, delay) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments;
+      clearTimeout(timeout);
+      timeout = setTimeout(function() {
+        callback.apply(context, args);
+      }, delay);
+    };
+  };
+
   export default {
 
     props: {
@@ -63,6 +86,9 @@
 
       // Label of list
       label: String,
+
+      // Debounce time
+      debounce: Number,
 
       // ajax URL will be fetched
       url: {
@@ -129,8 +155,14 @@
         // Callback Event
         this.onInput ? this.onInput(val) : null
 
+        // Debounce the "getData" method.
+        if(!this.debouncedGetData || this.debounce !== this.oldDebounce) {
+          this.oldDebounce = this.debounce;
+          this.debouncedGetData = this.debounce ? debounce(this.getData.bind(this), this.debounce) : this.getData;
+        }
+
         // Get The Data
-        this.getData(val)
+        this.debouncedGetData(val)
       },
 
       showAll(){
@@ -218,6 +250,8 @@
       },
 
       getData(val){
+
+
         let self = this;
 
         if (val.length < this.min) return;
@@ -270,5 +304,4 @@
     }
 
   }
-
 </script>
