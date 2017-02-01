@@ -2,10 +2,11 @@
 <template>
   <div>
     <autocomplete
-      url="http://localhost/proyek/goodmovie/api/api/v1/search"
+      url="https://maps.googleapis.com/maps/api/geocode/json?address="
       :custom-params="{ token: 'dev' }"
-      anchor="title"
-      label="writer"
+      anchor="formatted_address"
+      label="formatted_address"
+      :process="processJSON"
       :on-select="getData" >
     </autocomplete>
   </div>
@@ -20,6 +21,9 @@
     components: { Autocomplete },
 
     methods: {
+      processJSON(json) {
+        return json.results;
+      },
       getData(data) {
         console.log(data);
       }
