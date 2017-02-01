@@ -97,7 +97,9 @@ Full Props
     class-name="custom class name"
     placeholder="placeholder"
     :init-value="initial value"
-    :init-value="initial value"
+    :debounce="250"
+    :process="function"
+    :template="function"
     :custom-params="{ token: 'dev' }"
     :min="3"
 
@@ -149,6 +151,14 @@ Custom class name for autocomplete component
 #### id (String)
 Custom id name for autocomplete component
 
+#### debounce (number)
+Number of milliseconds the user should stop typing for before the request is sent. Default is 0, meaning all requests are sent immediately.
+
+#### process (Function)
+Function to process the API result with. Should return an array of entries or an object whose properties can be enumerated.
+
+#### template (Function)
+Function to process each result with. Takes the type of an API reply element and should return HTML data.
 
 
 ## Callback Events
