@@ -212,16 +212,21 @@
         switch (key) {
           case 40: //down
             this.focusList++;
+            e.preventDefault()
           break;
           case 38: //up
             this.focusList--;
+            e.preventDefault()
           break;
           case 13: //enter
             this.selectList(this.json[this.focusList])
             this.showList = false;
+            console.log('happenign')
+            e.preventDefault()
           break;
           case 27: //esc
             this.showList = false;
+            e.preventDefault()
           break;
         }
 
