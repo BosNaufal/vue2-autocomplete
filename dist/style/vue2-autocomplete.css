@@ -44,14 +44,18 @@
   background: #2F9AF7;
 }
 
-.autocomplete ul li a span{
+.autocomplete ul li a span, /*backwards compat*/
+.autocomplete ul li a .autocomplete-anchor-label{
   display: block;
   margin-top: 3px;
   color: grey;
   font-size: 13px;
 }
 
-.autocomplete ul li a:hover span, .autocomplete ul li.focus-list a span{
+.autocomplete ul li a:hover .autocomplete-anchor-label, 
+.autocomplete ul li.focus-list a span, /*backwards compat*/
+.autocomplete ul li a:hover .autocomplete-anchor-label, 
+.autocomplete ul li.focus-list a span{ /*backwards compat*/
   color: white;
 }
 

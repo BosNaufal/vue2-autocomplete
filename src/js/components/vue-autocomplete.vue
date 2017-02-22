@@ -22,8 +22,8 @@
           <a  href="#"
               @click.prevent="selectList(data)"
               @mousemove="mousemove(i)">
-            <b>{{ data[anchor] }}</b>
-            <span>{{ data[label] }}</span>
+            <b class="autocomplete-anchor-text">{{ data[anchor] }}</b> <!-- have to leave this bold tag for backwards compat... perhaps just style it with class -->
+            <span class="autocomplete-anchor-label">{{ data[label] }}</span>
           </a>
 
         </li>
