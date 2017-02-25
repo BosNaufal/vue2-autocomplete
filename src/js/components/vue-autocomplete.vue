@@ -3,7 +3,7 @@
   <div :class="(className ? className + '-wrapper ' : '') + 'autocomplete-wrapper'">
     <input  type="text"
             :id="id"
-            :class="(className ? className + '-input ' : '') + 'autocomplete-input'"
+            :class="(className ? className : '') + ' autocomplete-input'"
             :placeholder="placeholder"
             v-model="type"
             @input="input(type)"
@@ -104,6 +104,9 @@
 
       // Custom Params
       customParams: Object,
+
+      // Custom Headers
+      customHeaders: Object,
 
       // minimum length
       min: {
@@ -274,6 +277,13 @@
           }
 
           ajax.open('GET', `${this.url}?${this.param}=${val}${params}`, true);
+
+          if(this.customHeaders) {
+            Object.keys(this.customHeaders).forEach((key) => {
+              ajax.setRequestHeader(key, this.customHeaders[key])
+            })
+          }
+
           ajax.send();
 
           ajax.addEventListener('progress', function (data) {
