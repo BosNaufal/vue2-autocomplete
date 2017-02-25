@@ -99,6 +99,7 @@ Full Props
     :init-value="initial value"
     :init-value="initial value"
     :custom-params="{ token: 'dev' }"
+    :custom-headers="{ Authorization: 'bearer abc123' }"
     :min="3"
 
     :on-input="callbackEvent"
@@ -109,7 +110,9 @@ Full Props
     :on-select="callbackEvent"
     :on-before-ajax="callbackEvent"
     :on-ajax-progress="callbackEvent"
-    :on-ajax-loaded="callbackEvent">
+    :on-ajax-loaded="callbackEvent"
+
+    :process="Function">
   </autocomplete>
 
 </template>
