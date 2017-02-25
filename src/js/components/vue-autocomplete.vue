@@ -3,7 +3,7 @@
   <div :class="(className ? className + '-wrapper ' : '') + 'autocomplete-wrapper'">
     <input  type="text"
             :id="id"
-            :class="(className ? className + '-input ' : '') + ' autocomplete-input'"
+            :class="(className ? className + '-input ' : '') + 'autocomplete-input'"
             :placeholder="placeholder"
             v-model="type"
             @input="input(type)"
