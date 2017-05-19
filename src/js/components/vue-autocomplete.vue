@@ -22,8 +22,8 @@
           <a  href="#"
               @click.prevent="selectList(data)"
               @mousemove="mousemove(i)">
-            <b>{{ data[anchor] }}</b>
-            <span>{{ data[label] }}</span>
+            <b>{{ deepValue(data, anchor) }}</b>
+            <span>{{ deepValue(data, label) }}</span>
           </a>
 
         </li>
@@ -298,8 +298,17 @@
 
       setValue(val) {
         this.type = val
-      }
+      },
+	  
+	  deepValue(obj, path) {
+		for (var i = 0, path = path.split('.'), len = path.length; i < len; i++) {
+			obj = obj[path[i]];
+		};
+		return obj;
+	  }
+	  
     },
+
 
     created(){
       // Sync parent model with initValue Props
