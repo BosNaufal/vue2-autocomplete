@@ -124,7 +124,7 @@ http://some-url.com/API/list?q=
 There are no filter and limit action inside the component. So, do it in your API logic.
 
 
-#### params (String)
+#### param (String)
 name of the search parameter to query in Ajax call. default is `q=`
 
 
