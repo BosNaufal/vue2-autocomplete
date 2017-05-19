@@ -38,7 +38,7 @@ Don't forget to import vue 2 css. You can link it via html
 Or You can import it using commonJS
 
 ```javascript
-require('vue2-autocomplete-js/style/vue2-autocomplete.css')
+require('vue2-autocomplete-js/dist/style/vue2-autocomplete.css')
 ```
 
 Its style is very customizable. You can put any CSS over it. And You can add custom class via its prop.
