@@ -263,7 +263,7 @@
 
           // Callback Event
           this.onBeforeAjax ? this.onBeforeAjax(val) : null
-
+		  
           let ajax = new XMLHttpRequest();
 
           let params = ""
@@ -280,7 +280,7 @@
             if(data.lengthComputable){
 
               // Callback Event
-              this.onAjaxProgress ? this.onAjaxProgress(data) : null
+              self.onAjaxProgress ? self.onAjaxProgress(data) : null
             }
           });
 
@@ -288,7 +288,7 @@
             let json = JSON.parse(this.responseText);
 
             // Callback Event
-            this.onAjaxLoaded ? this.onAjaxLoaded(json) : null
+            self.onAjaxLoaded ? self.onAjaxLoaded(json) : null
 
             self.json = self.process ? self.process(json) : json;
           });
