@@ -105,6 +105,9 @@
       // Custom Params
       customParams: Object,
 
+      // Custom Headers
+      customHeaders: Object,
+
       // minimum length
       min: {
         type: Number,
@@ -274,6 +277,13 @@
           }
 
           ajax.open('GET', `${this.url}?${this.param}=${val}${params}`, true);
+
+          if(this.customHeaders) {
+            Object.keys(this.customHeaders).forEach((key) => {
+              ajax.setRequestHeader(key, this.customHeaders[key])
+            })
+          }
+
           ajax.send();
 
           ajax.addEventListener('progress', function (data) {
