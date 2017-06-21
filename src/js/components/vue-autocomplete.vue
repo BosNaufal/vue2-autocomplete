@@ -273,7 +273,9 @@
             })
           }
 
-          ajax.open('GET', `${this.url}?${this.param}=${val}${params}`, true);
+          const encodedVal = encodeURIComponent(val);
+
+          ajax.open('GET', `${this.url}?${this.param}=${encodedVal}${params}`, true);
           ajax.send();
 
           ajax.addEventListener('progress', function (data) {
