@@ -16,20 +16,16 @@ module.exports = {
     loaders: [
       {
         test: /\.vue$/,
-        loader: 'vue'
+        loader: 'vue-loader'
       },
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel',
-        query: {
-          presets: ["es2015"],
-          plugins: ["transform-object-rest-spread","transform-vue-jsx"]
-        }
+        loader: 'babel-loader',
       },
       {
         test: /\.css$/,
-        loaders: ['style','css']
+        use: ['style-loader','css-loader']
       }
     ]
   }

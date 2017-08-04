@@ -1,34 +1,43 @@
 
 <template>
-  <div :class="(className ? className + '-wrapper ' : '') + 'autocomplete-wrapper'">
-    <input  type="text"
-            :id="id"
-            :class="(className ? className + '-input ' : '') + 'autocomplete-input'"
-            :placeholder="placeholder"
-            v-model="type"
-            @input="input(type)"
-            @dblclick="showAll"
-            @blur="hideAll"
-            @keydown="keydown"
-            @focus="focus"
-            autocomplete="off" />
+  <div :class="`${getClassName('wrapper')} autocomplete-wrapper`">
+    <input
+      type="text"
+      :id="id"
+      :class="`${getClassName('input')} autocomplete-input`"
+      :placeholder="placeholder"
+      v-model="type"
+      @input="input(type)"
+      @dblclick="showAll"
+      @blur="hideAll"
+      @keydown="keydown"
+      @focus="focus"
+      autocomplete="off"
+    />
 
-    <div :class="(className ? className + '-list ' : '') + 'autocomplete transition autocomplete-list'" v-show="showList">
+    <div
+      :class="`${getClassName('list')} autocomplete transition autocomplete-list`"
+      v-show="showList"
+    >
       <ul>
-        <li v-for="(data, i) in json"
-            transition="showAll"
-            :class="activeClass(i)">
-
-          <a  href="#"
-              @click.prevent="selectList(data)"
-              @mousemove="mousemove(i)">
+        <li
+          v-for="(data, i) in json"
+          transition="showAll"
+          :class="activeClass(i)"
+        >
+          <a
+            href="#"
+            @click.prevent="selectList(data)"
+            @mousemove="mousemove(i)"
+          >
             <b>{{ data[anchor] }}</b>
             <span>{{ data[label] }}</span>
           </a>
-
         </li>
       </ul>
+
     </div>
+
   </div>
 </template>
 
@@ -70,6 +79,15 @@
     props: {
       id: String,
       className: String,
+      classes: {
+        type: Object,
+        default: () => ({
+          wrapper: false,
+          input: false,
+          list: false,
+          item: false,
+        })
+      },
       placeholder: String,
 
       // Intial Value
@@ -139,6 +157,12 @@
 
     methods: {
 
+      getClassName(part) {
+        const { classes, className } = this
+        if (classes[part]) return `${classes[part]}`
+        return className ? `${className}-${part}` : ''
+      },
+
       // Netralize Autocomplete
       clearInput() {
         this.showList = false
@@ -152,6 +176,10 @@
         return JSON.parse(JSON.stringify(data));
       },
 
+
+      /*==============================
+        INPUT EVENTS
+      =============================*/
       input(val){
         this.showList = true;
 
@@ -167,6 +195,45 @@
         // Get The Data
         this.debouncedGetData(val)
       },
+
+
+      keydown(e){
+        let key = e.keyCode;
+
+        // Disable when list isn't showing up
+        if(!this.showList) return;
+
+        switch (key) {
+          case 40: //down
+            this.focusList++;
+          break;
+          case 38: //up
+            this.focusList--;
+          break;
+          case 13: //enter
+            this.selectList(this.json[this.focusList])
+            this.showList = false;
+          break;
+          case 27: //esc
+            this.showList = false;
+          break;
+        }
+
+        // When cursor out of range
+        let listLength = this.json.length - 1;
+        this.focusList = this.focusList > listLength ? 0 : this.focusList < 0 ? listLength : this.focusList;
+
+      },
+
+      setValue(val) {
+        this.type = val
+      },
+
+
+
+      /*==============================
+        LIST EVENTS
+      =============================*/
 
       showAll(){
         this.json = [];
@@ -203,42 +270,13 @@
         this.focusList = i;
       },
 
-      keydown(e){
-        let key = e.keyCode;
-
-        // Disable when list isn't showing up
-        if(!this.showList) return;
-
-        switch (key) {
-          case 40: //down
-            this.focusList++;
-          break;
-          case 38: //up
-            this.focusList--;
-          break;
-          case 13: //enter
-            this.selectList(this.json[this.focusList])
-            this.showList = false;
-          break;
-          case 27: //esc
-            this.showList = false;
-          break;
-        }
-
-        // When cursor out of range
-        let listLength = this.json.length - 1;
-        this.focusList = this.focusList > listLength ? 0 : this.focusList < 0 ? listLength : this.focusList;
-
-      },
-
       activeClass(i){
-        return {
-          'focus-list' : i == this.focusList
-        };
+        const focusClass = i === this.focusList ? 'focus-list' : ''
+        return `${this.getClassName('input')} ${focusClass}`
       },
 
       selectList(data){
-        let clean = this.cleanUp(data);
+        const clean = this.cleanUp(data);
 
         // Put the selected data to type (model)
         this.type = clean[this.anchor];
@@ -252,10 +290,14 @@
         this.onSelect ? this.onSelect(clean) : null
       },
 
+
+
+      /*==============================
+        AJAX EVENTS
+      =============================*/
+
       getData(val){
-
-
-        let self = this;
+        const self = this;
 
         if (val.length < this.min) return;
 
@@ -296,10 +338,9 @@
         }
       },
 
-      setValue(val) {
-        this.type = val
-      }
     },
+
+
 
     created(){
       // Sync parent model with initValue Props

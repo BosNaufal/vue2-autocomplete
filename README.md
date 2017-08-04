@@ -94,7 +94,8 @@ Full Props
     :on-select="getData"
 
     id="custom id"
-    class-name="custom class name"
+    className="custom class name"
+    :classes="{ wrapper: 'form-wrapper', input: 'form-control', list: 'data-list', item: 'data-list-item' }"
     placeholder="placeholder"
     :init-value="initial value"
     :init-value="initial value"
@@ -145,6 +146,9 @@ Placeholder for input
 
 #### className (String)
 Custom class name for autocomplete component
+
+#### classes (Object)
+Spesific custom class for each part. available: wrapper, input, list, and item
 
 #### id (String)
 Custom id name for autocomplete component

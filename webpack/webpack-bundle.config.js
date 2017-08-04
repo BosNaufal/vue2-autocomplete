@@ -1,7 +1,5 @@
 
 var webpack = require('webpack');
-var combineLoaders = require('webpack-combine-loaders');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 require('es6-promise').polyfill();
 
 var npm = require("../package.json");
@@ -13,7 +11,7 @@ module.exports = {
   output: {
     path: __dirname + '/../dist/',
     publicPath: '../dist/',
-    filename: 'vue2-autocomplete.js',
+    filename: npm.name + '.js',
     libraryTarget: "umd",
     library: "Vue2Autocomplete"
   },
@@ -28,38 +26,19 @@ module.exports = {
     loaders: [
       {
         test: /\.vue$/,
-        loader: 'vue'
+        loader: 'vue-loader'
       },
 
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel',
-        query: {
-          presets: ["es2015"],
-          plugins: ["transform-object-rest-spread","transform-vue-jsx"]
-        }
-      },
-
-      {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url',
-      },
-
-      {
-        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url',
+        loader: 'babel-loader',
       },
 
       {
         test: /\.css$/,
-        loaders: ['style','css']
-      },
-
-      {
-        test: /\.json$/,
-        loader: 'json'
-      },
+        use: ['style-loader','css-loader']
+      }
     ]
   },
 
