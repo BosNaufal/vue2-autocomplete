@@ -12,6 +12,11 @@
       :onSelect="handleSelect"
     >
     </autocomplete>
+
+    <pre v-if="preContent" :style="preStyle">
+      <b>Selected Data:</b>
+      {{ preContent }}
+    </pre>
   </div>
 </template>
 
@@ -23,13 +28,26 @@
   export default {
     components: { Autocomplete },
 
+    data () {
+      return  {
+        preContent: "",
+        preStyle: {
+          background: "#f2f2f2",
+          fontFamily: "monospace",
+          fontSize: "1em",
+          display: "inline-block",
+          padding: "15px 7px",
+        }
+      }
+    },
+
     methods: {
       processJSON(json) {
         return json.results;
       },
 
       handleSelect(data) {
-        console.log(data);
+        this.preContent = JSON.stringify(data, null, 4)
       }
     }
   };

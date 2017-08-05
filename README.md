@@ -1,5 +1,5 @@
 # Vue 2 Autocomplete
-Autocomplete Component For [Vue 2](http://vuejs.org). It's based on [vue-autocomplete](https://github.com/BosNaufal/vue-autocomplete)
+Autocomplete Component For [Vue 2](http://vuejs.org). It's based on [vue-autocomplete](https://github.com/BosNaufal/vue-autocomplete). [LIVE DEMO HERE!](https://rawgit.com/BosNaufal/vue2-autocomplete/master/index.html)
 
 <p align="center">
   <a href="./" title="Vue Autocomplete">
