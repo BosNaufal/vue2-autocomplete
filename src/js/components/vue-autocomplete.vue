@@ -105,6 +105,11 @@
         default: 'q'
       },
 
+      encodeParams: {
+        type: Boolean,
+        default: true,
+      },
+
       // Custom Params
       customParams: Object,
 
@@ -297,11 +302,12 @@
       /*==============================
         AJAX EVENTS
       =============================*/
-      composeParams() {
-        let params = ""
+      composeParams(val) {
+        const encode = (val) => this.encodeParams ? encodeURIComponent(val) : val
+        let params = `${this.param}=${encode(val)}`
         if(this.customParams) {
           Object.keys(this.customParams).forEach((key) => {
-            params += `&${key}=${this.customParams[key]}`
+            params += `&${key}=${encode(this.customParams[key])}`
           })
         }
         return params
@@ -311,10 +317,10 @@
         // Callback Event
         this.onBeforeAjax ? this.onBeforeAjax(val) : null
         // Compose Params
-        let params = this.composeParams()
+        let params = this.composeParams(val)
         // Init Ajax
         let ajax = new XMLHttpRequest();
-        ajax.open('GET', `${this.url}?${this.param}=${val}${params}`, true);
+        ajax.open('GET', `${this.url}?${params}`, true);
         // Callback Event
         ajax.addEventListener('progress', (data) => {
           if(data.lengthComputable && this.onAjaxProgress) this.onAjaxProgress(data)

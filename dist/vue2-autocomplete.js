@@ -276,6 +276,11 @@ module.exports = function(originalModule) {
       default: 'q'
     },
 
+    encodeParams: {
+      type: Boolean,
+      default: true
+    },
+
     // Custom Params
     customParams: Object,
 
@@ -469,13 +474,16 @@ module.exports = function(originalModule) {
     /*==============================
       AJAX EVENTS
     =============================*/
-    composeParams: function composeParams() {
+    composeParams: function composeParams(val) {
       var _this3 = this;
 
-      var params = "";
+      var encode = function encode(val) {
+        return _this3.encodeParams ? encodeURIComponent(val) : val;
+      };
+      var params = this.param + "=" + encode(val);
       if (this.customParams) {
         Object.keys(this.customParams).forEach(function (key) {
-          params += "&" + key + "=" + _this3.customParams[key];
+          params += "&" + key + "=" + encode(_this3.customParams[key]);
         });
       }
       return params;
@@ -486,10 +494,10 @@ module.exports = function(originalModule) {
       // Callback Event
       this.onBeforeAjax ? this.onBeforeAjax(val) : null;
       // Compose Params
-      var params = this.composeParams();
+      var params = this.composeParams(val);
       // Init Ajax
       var ajax = new XMLHttpRequest();
-      ajax.open('GET', this.url + "?" + this.param + "=" + val + params, true);
+      ajax.open('GET', this.url + "?" + params, true);
       // Callback Event
       ajax.addEventListener('progress', function (data) {
         if (data.lengthComputable && _this4.onAjaxProgress) _this4.onAjaxProgress(data);

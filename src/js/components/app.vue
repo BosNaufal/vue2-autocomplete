@@ -7,7 +7,6 @@
       label="formatted_address"
       :customParams="{ token: 'dev' }"
       :classes="{ input: 'form-control', wrapper: 'input-wrapper'}"
-      :filterByAnchor="true"
       :process="processJSON"
       :onSelect="handleSelect" >
     </autocomplete>

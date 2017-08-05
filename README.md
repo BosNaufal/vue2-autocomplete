@@ -104,6 +104,7 @@ Full Props
     :min="3"
     :debounce="2000"
     :filterByAnchor="true"
+    :encodeParams="true"
 
     :onShouldGetData="getData"
     :onInput="callbackEvent"
@@ -149,6 +150,9 @@ Manual pass an Array of list options to the autocomplete.
 
 #### filterByAnchor (Boolean: true)
 When you're using options props, you can have autocomplete to filter your data. Or you can just show your data directly without any filter from autocomplete. The options will be filtered by anchor and it according to the user input.
+
+#### encodeParams (Boolean: true)
+Autocomplete will ```encodeURIComponent``` all your params before ajax send, When this props sets to ```true```. Default is ```true``` [#35](https://github.com/BosNaufal/vue2-autocomplete/pull/35)
 
 #### debounce (Number)
 Delay time before do the ajax for the data
@@ -243,7 +247,7 @@ methods: {
 ```
 
 #### process (Function)
-Process the result before retrieveng the result array.
+Process the result before retrieveng the result array. You can shape your data here before it's passed to the autocomplete
 
 
 
