@@ -103,7 +103,7 @@ Full Props
     :options="[]"
     :min="3"
     :debounce="2000"
-    :debounce="2000"
+    :filterByAnchor="true"
 
     :onShouldGetData="getData"
     :onInput="callbackEvent"
