@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Naufal Rabbani (http://github.com/BosNaufal),
  * ,Licensed Under MIT (http://opensource.org/licenses/MIT),
  * ,
- * ,Vue 2 Autocomplete @ Version 0.1.0,
+ * ,Vue 2 Autocomplete @ Version 0.2.0,
  * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
