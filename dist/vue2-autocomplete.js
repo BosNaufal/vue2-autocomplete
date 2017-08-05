@@ -211,6 +211,9 @@ module.exports = function(originalModule) {
 //
 //
 //
+//
+//
+//
 
 
 /*! Copyright (c) 2016 Naufal Rabbani (http://github.com/BosNaufal)
@@ -291,6 +294,9 @@ module.exports = function(originalModule) {
       type: Number,
       default: 0
     },
+
+    // Create a custom template from data.
+    onShouldRenderChild: Function,
 
     // Process the result before retrieveng the result array.
     process: Function,
@@ -721,11 +727,15 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           _vm.mousemove(i)
         }
       }
-    }, [_c('b', {
+    }, [(_vm.onShouldRenderChild) ? _c('div', {
+      domProps: {
+        "innerHTML": _vm._s(_vm.onShouldRenderChild(data))
+      }
+    }) : _vm._e(), _vm._v(" "), (!_vm.onShouldRenderChild) ? _c('div', [_c('b', {
       staticClass: "autocomplete-anchor-text"
     }, [_vm._v(_vm._s(_vm.deepValue(data, _vm.anchor)))]), _vm._v(" "), _c('span', {
       staticClass: "autocomplete-anchor-label"
-    }, [_vm._v(_vm._s(_vm.deepValue(data, _vm.label)))])])])
+    }, [_vm._v(_vm._s(_vm.deepValue(data, _vm.label)))])]) : _vm._e()])])
   }))])])
 }
 var staticRenderFns = []

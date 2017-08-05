@@ -30,8 +30,11 @@
             @click.prevent="selectList(data)"
             @mousemove="mousemove(i)"
           >
-            <b class="autocomplete-anchor-text">{{ deepValue(data, anchor) }}</b>
-            <span class="autocomplete-anchor-label">{{ deepValue(data, label) }}</span>
+            <div v-if="onShouldRenderChild" v-html="onShouldRenderChild(data)"></div>
+            <div v-if="!onShouldRenderChild">
+              <b class="autocomplete-anchor-text">{{ deepValue(data, anchor) }}</b>
+              <span class="autocomplete-anchor-label">{{ deepValue(data, label) }}</span>
+            </div>
           </a>
         </li>
       </ul>
@@ -120,6 +123,9 @@
         type: Number,
         default: 0
       },
+
+      // Create a custom template from data.
+      onShouldRenderChild: Function,
 
       // Process the result before retrieveng the result array.
       process: Function,

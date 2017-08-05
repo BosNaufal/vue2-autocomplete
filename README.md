@@ -83,7 +83,7 @@ var Autocomplete = require('vue2-autocomplete-js');
 </script>
 ```
 
-Full Props
+Available Props
 ```html
 <template>
 
@@ -100,6 +100,7 @@ Full Props
     placeholder="placeholder"
     :initValue="initial value"
 
+
     :options="[]"
     :min="3"
     :debounce="2000"
@@ -115,7 +116,9 @@ Full Props
     :onSelect="callbackEvent"
     :onBeforeAjax="callbackEvent"
     :onAjaxProgress="callbackEvent"
-    :onAjaxLoaded="callbackEvent">
+    :onAjaxLoaded="callbackEvent"
+    :onShouldRenderChild="renderChild"
+  >
   </autocomplete>
 
 </template>
@@ -170,6 +173,14 @@ Spesific custom class for each part. available: wrapper, input, list, and item
 #### id (String)
 Custom id name for autocomplete component
 
+#### debounce (number)
+Number of milliseconds the user should stop typing for before the request is sent. Default is 0, meaning all requests are sent immediately.
+
+#### process (Function)
+Function to process the API result with. Should return an array of entries or an object whose properties can be enumerated.
+
+#### template (Function)
+Function to process each result with. Takes the type of an API reply element and should return HTML data.
 
 
 ## Callback Events
@@ -248,6 +259,28 @@ methods: {
 
 #### process (Function)
 Process the result before retrieveng the result array. You can shape your data here before it's passed to the autocomplete
+
+#### onShouldRenderChild (Function)
+Wanna use custom template for the list? Now, you can do it!
+```html
+<autocomplete
+  anchor="formatted_address"
+  label="formatted_address"
+  :onShouldRenderChild="renderChild"
+>
+</autocomplete>
+```
+```javascript
+methods: {
+  renderChild(data) {
+    return `
+      <img src="${data.src}" />
+      <span>${data.something}</span>
+    `
+  },
+}
+```
+
 
 
 

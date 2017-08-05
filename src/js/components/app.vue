@@ -9,7 +9,8 @@
       :customParams="{ token: 'dev' }"
       :classes="{ input: 'form-control', wrapper: 'input-wrapper'}"
       :process="processJSON"
-      :onSelect="handleSelect" >
+      :onSelect="handleSelect"
+    >
     </autocomplete>
   </div>
 </template>
