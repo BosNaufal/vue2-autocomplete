@@ -6,6 +6,7 @@
       :id="id"
       :class="`${getClassName('input')} autocomplete-input`"
       :placeholder="placeholder"
+      :name="name"
       v-model="type"
       @input="handleInput"
       @dblclick="handleDoubleClick"
@@ -54,6 +55,7 @@
 
     props: {
       id: String,
+      name: String,
       className: String,
       classes: {
         type: Object,

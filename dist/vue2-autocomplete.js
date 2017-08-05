@@ -210,6 +210,7 @@ module.exports = function(originalModule) {
 //
 //
 //
+//
 
 
 /*! Copyright (c) 2016 Naufal Rabbani (http://github.com/BosNaufal)
@@ -223,6 +224,7 @@ module.exports = function(originalModule) {
 
   props: {
     id: String,
+    name: String,
     className: String,
     classes: {
       type: Object,
@@ -667,6 +669,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       "type": "text",
       "id": _vm.id,
       "placeholder": _vm.placeholder,
+      "name": _vm.name,
       "autocomplete": "off"
     },
     domProps: {
