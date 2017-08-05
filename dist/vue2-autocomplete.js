@@ -395,14 +395,18 @@ module.exports = function(originalModule) {
       var ENTER = 13;
       var ESC = 27;
 
+      // Prevent Default for Prevent Cursor Move & Form Submit
       switch (key) {
         case DOWN:
+          e.preventDefault();
           this.focusList++;
           break;
         case UP:
+          e.preventDefault();
           this.focusList--;
           break;
         case ENTER:
+          e.preventDefault();
           this.selectList(this.json[this.focusList]);
           this.showList = false;
           break;
@@ -709,7 +713,11 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
           _vm.mousemove(i)
         }
       }
-    }, [_c('b', [_vm._v(_vm._s(data[_vm.anchor]))]), _vm._v(" "), _c('span', [_vm._v(_vm._s(data[_vm.label]))])])])
+    }, [_c('b', {
+      staticClass: "autocomplete-anchor-text"
+    }, [_vm._v(_vm._s(data[_vm.anchor]))]), _vm._v(" "), _c('span', {
+      staticClass: "autocomplete-anchor-label"
+    }, [_vm._v(_vm._s(data[_vm.label]))])])])
   }))])])
 }
 var staticRenderFns = []

@@ -30,8 +30,8 @@
             @click.prevent="selectList(data)"
             @mousemove="mousemove(i)"
           >
-            <b>{{ data[anchor] }}</b>
-            <span>{{ data[label] }}</span>
+            <b class="autocomplete-anchor-text">{{ data[anchor] }}</b>
+            <span class="autocomplete-anchor-label">{{ data[label] }}</span>
           </a>
         </li>
       </ul>
@@ -217,14 +217,19 @@
         const ENTER = 13
         const ESC = 27
 
+
+        // Prevent Default for Prevent Cursor Move & Form Submit
         switch (key) {
           case DOWN:
+            e.preventDefault()
             this.focusList++;
           break;
           case UP:
+            e.preventDefault()
             this.focusList--;
           break;
           case ENTER:
+            e.preventDefault()
             this.selectList(this.json[this.focusList])
             this.showList = false;
           break;
