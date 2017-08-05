@@ -51,29 +51,6 @@
   *
   */
 
-  /*!
-  *  javascript-debounce 1.0.0
-  *
-  *  A lightweight, dependency-free JavaScript module for debouncing functions based on David Walsh's debounce function.
-  *
-  *  Source code available at: https://github.com/jgarber623/javascript-debounce
-  *
-  *  (c) 2015-present Jason Garber (http://sixtwothree.org)
-  *
-  *  javascript-debounce may be freely distributed under the MIT license.
-  */
-
-  var debounce = function(callback, delay) {
-    var timeout;
-    return function() {
-      var context = this, args = arguments;
-      clearTimeout(timeout);
-      timeout = setTimeout(function() {
-        callback.apply(context, args);
-      }, delay);
-    };
-  };
-
   export default {
 
     props: {
@@ -150,7 +127,8 @@
         showList: false,
         type: "",
         json: [],
-        focusList: ""
+        focusList: "",
+        debounceTask: undefined,
       };
     },
 
@@ -186,14 +164,15 @@
         // Callback Event
         this.onInput ? this.onInput(val) : null
 
-        // Debounce the "getData" method.
-        if(!this.debouncedGetData || this.debounce !== this.oldDebounce) {
-          this.oldDebounce = this.debounce;
-          this.debouncedGetData = this.debounce ? debounce(this.getData.bind(this), this.debounce) : this.getData;
+        // If Debounce
+        if (this.debounce) {
+          if (this.debounceTask !== undefined) clearTimeout(this.debounceTask)
+          this.debounceTask = setTimeout(() => {
+            return this.getData(val)
+          }, this.debounce)
+        } else {
+          return this.getData(val)
         }
-
-        // Get The Data
-        this.debouncedGetData(val)
       },
 
 
@@ -203,26 +182,38 @@
         // Disable when list isn't showing up
         if(!this.showList) return;
 
+        // Key List
+        const DOWN = 40
+        const UP = 38
+        const ENTER = 13
+        const ESC = 27
+
         switch (key) {
-          case 40: //down
+          case DOWN:
             this.focusList++;
           break;
-          case 38: //up
+          case UP:
             this.focusList--;
           break;
-          case 13: //enter
+          case ENTER:
             this.selectList(this.json[this.focusList])
             this.showList = false;
           break;
-          case 27: //esc
+          case ESC:
             this.showList = false;
           break;
         }
 
-        // When cursor out of range
-        let listLength = this.json.length - 1;
-        this.focusList = this.focusList > listLength ? 0 : this.focusList < 0 ? listLength : this.focusList;
+        const listLength = this.json.length - 1;
+        const outOfRangeBottom = this.focusList > listLength
+        const outOfRangeTop = this.focusList < 0
+        const topItemIndex = 0
+        const bottomItemIndex = listLength
 
+        let nextFocusList = this.focusList
+        if (outOfRangeBottom) nextFocusList = topItemIndex
+        if (outOfRangeTop) nextFocusList = bottomItemIndex
+        this.focusList = nextFocusList
       },
 
       setValue(val) {
@@ -301,7 +292,7 @@
 
         if (val.length < this.min) return;
 
-        if(this.url != null){
+        if(this.url !== null){
 
           // Callback Event
           this.onBeforeAjax ? this.onBeforeAjax(val) : null

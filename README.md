@@ -101,6 +101,7 @@ Full Props
     :init-value="initial value"
     :custom-params="{ token: 'dev' }"
     :min="3"
+    :debounce="2000"
 
     :on-input="callbackEvent"
     :on-show="callbackEvent"
@@ -139,6 +140,10 @@ It's a object property name that passed by your API. It's used for Anchor in sug
 
 #### label (String)
 Same as anchor but it's used for subtitle or description of list
+
+
+#### debounce (Number)
+Delay time before do the ajax for the data
 
 
 #### placeholder (String)
