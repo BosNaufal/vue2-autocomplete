@@ -74,7 +74,7 @@ var Autocomplete = require('vue2-autocomplete-js');
     components: { Autocomplete },
 
     methods: {
-      getFiles(obj){
+      getData(obj){
         console.log(obj);
       }
     }
@@ -129,7 +129,7 @@ http://some-url.com/API/list?q=
 There are no filter and limit action inside the component. So, do it in your API logic.
 
 
-#### params (String: "q")
+#### param (String: "q")
 name of the search parameter to query in Ajax call. default is `q`
 
 
