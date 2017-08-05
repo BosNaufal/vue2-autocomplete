@@ -190,6 +190,42 @@ While ajax is fetching the data
 #### onAjaxLoaded (Function)
 When ajax process is totally loaded
 
+#### onShouldGetData (Function)
+Manually Process the whole ajax process. If it's a Promise, it should resolve the options for the list of autocomplete.
+<!-- If it isn't a Promise, you can manually pass the options to the props of autocomplete -->
+```html
+<autocomplete
+  url="https://maps.googleapis.com/maps/api/geocode/json?address="
+  anchor="formatted_address"
+  label="formatted_address"
+  :onShouldGetData="getData"
+  :onSelect="handleSelect"
+>
+</autocomplete>
+```
+```javascript
+methods: {
+  getData(value) {
+    return new Promise((resolve, reject) => {
+      let ajax = new XMLHttpRequest();
+      ajax.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${value}`, true);
+      // On Done
+      ajax.addEventListener('loadend', (e) => {
+        const { responseText } = e.target
+        let response = JSON.parse(responseText);
+        // The options to pass in the autocomplete
+        resolve(response.results)
+      });
+      ajax.send();
+    })
+  },
+}
+```
+
+#### process (Function)
+Process the result before retrieveng the result array.
+
+
 
 ## Methods
 You can do some methods by accessing the component via javascript.

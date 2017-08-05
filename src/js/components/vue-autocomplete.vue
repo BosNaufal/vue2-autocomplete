@@ -7,11 +7,11 @@
       :class="`${getClassName('input')} autocomplete-input`"
       :placeholder="placeholder"
       v-model="type"
-      @input="input(type)"
-      @dblclick="showAll"
-      @blur="hideAll"
-      @keydown="keydown"
-      @focus="focus"
+      @input="handleInput"
+      @dblclick="handleDoubleClick"
+      @blur="handleBlur"
+      @keydown="handleKeyDown"
+      @focus="handleFocus"
       autocomplete="off"
     />
 
@@ -119,7 +119,7 @@
       onBeforeAjax: Function,
       onAjaxProgress: Function,
       onAjaxLoaded: Function,
-
+      onShouldGetData: Function,
     },
 
     data() {
@@ -158,25 +158,24 @@
       /*==============================
         INPUT EVENTS
       =============================*/
-      input(val){
+      handleInput(e){
+        const { value } = e.target
         this.showList = true;
-
         // Callback Event
-        this.onInput ? this.onInput(val) : null
-
+        if(this.onInput) this.onInput(value)
         // If Debounce
         if (this.debounce) {
           if (this.debounceTask !== undefined) clearTimeout(this.debounceTask)
           this.debounceTask = setTimeout(() => {
-            return this.getData(val)
+            return this.getData(value)
           }, this.debounce)
         } else {
-          return this.getData(val)
+          return this.getData(value)
         }
       },
 
 
-      keydown(e){
+      handleKeyDown(e){
         let key = e.keyCode;
 
         // Disable when list isn't showing up
@@ -226,33 +225,26 @@
         LIST EVENTS
       =============================*/
 
-      showAll(){
+      handleDoubleClick(){
         this.json = [];
-
         this.getData("")
-
         // Callback Event
         this.onShow ? this.onShow() : null
-
         this.showList = true;
       },
 
-      hideAll(e){
+      handleBlur(e){
         // Callback Event
         this.onBlur ? this.onBlur(e) : null
-
         setTimeout(() => {
-
           // Callback Event
           this.onHide ? this.onHide() : null
-
           this.showList = false;
         },250);
       },
 
-      focus(e){
+      handleFocus(e){
         this.focusList = 0;
-
         // Callback Event
         this.onFocus ? this.onFocus(e) : null
       },
@@ -267,17 +259,13 @@
       },
 
       selectList(data){
+        // Deep clone of the original object
         const clean = this.cleanUp(data);
-
         // Put the selected data to type (model)
         this.type = clean[this.anchor];
-
+        // Hide List
         this.showList = false;
-
-        /**
-        * Callback Event
-        * Deep clone of the original object
-        */
+        // Callback Event
         this.onSelect ? this.onSelect(clean) : null
       },
 
@@ -286,52 +274,52 @@
       /*==============================
         AJAX EVENTS
       =============================*/
-
-      getData(val){
-        const self = this;
-
-        if (val.length < this.min) return;
-
-        if(this.url !== null){
-
-          // Callback Event
-          this.onBeforeAjax ? this.onBeforeAjax(val) : null
-
-          let ajax = new XMLHttpRequest();
-
-          let params = ""
-          if(this.customParams) {
-            Object.keys(this.customParams).forEach((key) => {
-              params += `&${key}=${this.customParams[key]}`
-            })
-          }
-
-          ajax.open('GET', `${this.url}?${this.param}=${val}${params}`, true);
-          ajax.send();
-
-          ajax.addEventListener('progress', function (data) {
-            if(data.lengthComputable){
-
-              // Callback Event
-              this.onAjaxProgress ? this.onAjaxProgress(data) : null
-            }
-          });
-
-          ajax.addEventListener('loadend', function (data) {
-            let json = JSON.parse(this.responseText);
-
-            // Callback Event
-            this.onAjaxLoaded ? this.onAjaxLoaded(json) : null
-
-            self.json = self.process ? self.process(json) : json;
-          });
-
+      composeParams() {
+        let params = ""
+        if(this.customParams) {
+          Object.keys(this.customParams).forEach((key) => {
+            params += `&${key}=${this.customParams[key]}`
+          })
         }
+        return params
       },
 
+      getData(val){
+        if (val.length < this.min || !this.url) return;
+        if (this.onShouldGetData) return this.manualGetData(val)
+        // Callback Event
+        this.onBeforeAjax ? this.onBeforeAjax(val) : null
+        // Compose Params
+        let params = this.composeParams()
+        // Init Ajax
+        let ajax = new XMLHttpRequest();
+        ajax.open('GET', `${this.url}?${this.param}=${val}${params}`, true);
+        // Callback Event
+        ajax.addEventListener('progress', (data) => {
+          if(data.lengthComputable && this.onAjaxProgress) this.onAjaxProgress(data)
+        });
+        // On Done
+        ajax.addEventListener('loadend', (e) => {
+          const { responseText } = e.target
+          let json = JSON.parse(responseText);
+          // Callback Event
+          this.onAjaxLoaded ? this.onAjaxLoaded(json) : null
+          this.json = this.process ? this.process(json) : json;
+        });
+        // Send Ajax
+        ajax.send();
+      },
+
+      // Do Ajax Manually, so user can do whatever he want
+      manualGetData(val) {
+        const task = this.onShouldGetData(val)
+        if (task && task.then) {
+          return task.then((options) => {
+            this.json = options
+          })
+        }
+      },
     },
-
-
 
     created(){
       // Sync parent model with initValue Props
