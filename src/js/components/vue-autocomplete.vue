@@ -30,8 +30,8 @@
             @click.prevent="selectList(data)"
             @mousemove="mousemove(i)"
           >
-            <b class="autocomplete-anchor-text">{{ data[anchor] }}</b>
-            <span class="autocomplete-anchor-label">{{ data[label] }}</span>
+            <b class="autocomplete-anchor-text">{{ deepValue(data, anchor) }}</b>
+            <span class="autocomplete-anchor-label">{{ deepValue(data, label) }}</span>
           </a>
         </li>
       </ul>
@@ -304,11 +304,20 @@
         this.onSelect ? this.onSelect(clean) : null
       },
 
+      deepValue(obj, path) {
+        const arrayPath = path.split('.')
+        for (var i = 0; i < arrayPath.length; i++) {
+          obj = obj[arrayPath[i]];
+        }
+        return obj;
+      },
+
 
 
       /*==============================
         AJAX EVENTS
       =============================*/
+
       composeParams(val) {
         const encode = (val) => this.encodeParams ? encodeURIComponent(val) : val
         let params = `${this.param}=${encode(val)}`
@@ -360,8 +369,8 @@
         }
       },
 
-
     },
+
 
     created(){
       // Sync parent model with initValue Props

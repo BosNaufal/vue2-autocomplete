@@ -139,7 +139,7 @@ Minimum input typed chars before performing the search query. default is `0`
 
 
 #### anchor* (String)
-It's a object property name that passed by your API. It's used for Anchor in suggestions list. Example `anchor="name"` will get the name property of your JSON object. Like ("Bambang", "Sukijan", "Bejo") in the demo above.
+It's a object property path that used for Anchor in suggestions list. Example `anchor="name"` will get the name property of your JSON object. Like ("Bambang", "Sukijan", "Bejo") in the demo above. Or you can reach the deep value of your object. Like `anchor="geometry.location.lat"`
 
 
 #### label (String)

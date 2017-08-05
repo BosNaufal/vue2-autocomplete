@@ -475,11 +475,19 @@ module.exports = function(originalModule) {
       // Callback Event
       this.onSelect ? this.onSelect(clean) : null;
     },
+    deepValue: function deepValue(obj, path) {
+      var arrayPath = path.split('.');
+      for (var i = 0; i < arrayPath.length; i++) {
+        obj = obj[arrayPath[i]];
+      }
+      return obj;
+    },
 
 
     /*==============================
       AJAX EVENTS
     =============================*/
+
     composeParams: function composeParams(val) {
       var _this3 = this;
 
@@ -715,9 +723,9 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       }
     }, [_c('b', {
       staticClass: "autocomplete-anchor-text"
-    }, [_vm._v(_vm._s(data[_vm.anchor]))]), _vm._v(" "), _c('span', {
+    }, [_vm._v(_vm._s(_vm.deepValue(data, _vm.anchor)))]), _vm._v(" "), _c('span', {
       staticClass: "autocomplete-anchor-label"
-    }, [_vm._v(_vm._s(data[_vm.label]))])])])
+    }, [_vm._v(_vm._s(_vm.deepValue(data, _vm.label)))])])])
   }))])])
 }
 var staticRenderFns = []

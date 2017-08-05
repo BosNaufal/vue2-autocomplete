@@ -4,7 +4,7 @@
     <autocomplete
       url="https://maps.googleapis.com/maps/api/geocode/json?address="
       anchor="formatted_address"
-      label="formatted_address"
+      label="geometry.location.lat"
       name="autocomplete"
       :customParams="{ token: 'dev' }"
       :classes="{ input: 'form-control', wrapper: 'input-wrapper'}"
