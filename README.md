@@ -38,7 +38,7 @@ Don't forget to import vue 2 css. You can link it via html
 Or You can import it using commonJS
 
 ```javascript
-require('vue2-autocomplete-js/style/vue2-autocomplete.css')
+require('vue2-autocomplete-js/dist/style/vue2-autocomplete.css')
 ```
 
 Its style is very customizable. You can put any CSS over it. And You can add custom class via its prop.
@@ -93,6 +93,8 @@ Available Props
     label="writer"
     :onSelect="getData"
     :customParams="{ token: 'dev' }"
+    :customHeaders="{ Authorization: 'bearer abc123' }"
+
 
     id="custom id"
     className="custom class name"
@@ -132,14 +134,11 @@ http://some-url.com/API/list?q=
 ```
 There are no filter and limit action inside the component. So, do it in your API logic.
 
-
 #### param (String: "q")
 name of the search parameter to query in Ajax call. default is `q`
 
-
 #### min (Number: 0)
 Minimum input typed chars before performing the search query. default is `0`
-
 
 #### anchor* (String)
 It's a object property path that used for Anchor in suggestions list. Example `anchor="name"` will get the name property of your JSON object. Like ("Bambang", "Sukijan", "Bejo") in the demo above. Or you can reach the deep value of your object. Like `anchor="geometry.location.lat"`
@@ -280,7 +279,6 @@ methods: {
   },
 }
 ```
-
 
 
 

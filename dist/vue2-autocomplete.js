@@ -289,6 +289,9 @@ module.exports = function(originalModule) {
     // Custom Params
     customParams: Object,
 
+    // Custom Headers
+    customHeaders: Object,
+
     // minimum length
     min: {
       type: Number,
@@ -508,8 +511,17 @@ module.exports = function(originalModule) {
       }
       return params;
     },
-    doAjax: function doAjax(val) {
+    composeHeader: function composeHeader(ajax) {
       var _this4 = this;
+
+      if (this.customHeaders) {
+        Object.keys(this.customHeaders).forEach(function (key) {
+          ajax.setRequestHeader(key, _this4.customHeaders[key]);
+        });
+      }
+    },
+    doAjax: function doAjax(val) {
+      var _this5 = this;
 
       // Callback Event
       this.onBeforeAjax ? this.onBeforeAjax(val) : null;
@@ -518,9 +530,10 @@ module.exports = function(originalModule) {
       // Init Ajax
       var ajax = new XMLHttpRequest();
       ajax.open('GET', this.url + "?" + params, true);
+      this.composeHeader(ajax);
       // Callback Event
       ajax.addEventListener('progress', function (data) {
-        if (data.lengthComputable && _this4.onAjaxProgress) _this4.onAjaxProgress(data);
+        if (data.lengthComputable && _this5.onAjaxProgress) _this5.onAjaxProgress(data);
       });
       // On Done
       ajax.addEventListener('loadend', function (e) {
@@ -528,8 +541,8 @@ module.exports = function(originalModule) {
 
         var json = JSON.parse(responseText);
         // Callback Event
-        _this4.onAjaxLoaded ? _this4.onAjaxLoaded(json) : null;
-        _this4.json = _this4.process ? _this4.process(json) : json;
+        _this5.onAjaxLoaded ? _this5.onAjaxLoaded(json) : null;
+        _this5.json = _this5.process ? _this5.process(json) : json;
       });
       // Send Ajax
       ajax.send();
@@ -542,12 +555,12 @@ module.exports = function(originalModule) {
 
     // Do Ajax Manually, so user can do whatever he want
     manualGetData: function manualGetData(val) {
-      var _this5 = this;
+      var _this6 = this;
 
       var task = this.onShouldGetData(val);
       if (task && task.then) {
         return task.then(function (options) {
-          _this5.json = options;
+          _this6.json = options;
         });
       }
     }

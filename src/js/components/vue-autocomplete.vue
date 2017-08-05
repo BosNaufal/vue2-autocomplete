@@ -118,6 +118,9 @@
       // Custom Params
       customParams: Object,
 
+      // Custom Headers
+      customHeaders: Object,
+
       // minimum length
       min: {
         type: Number,
@@ -335,6 +338,14 @@
         return params
       },
 
+      composeHeader(ajax) {
+        if(this.customHeaders) {
+          Object.keys(this.customHeaders).forEach((key) => {
+            ajax.setRequestHeader(key, this.customHeaders[key])
+          })
+        }
+      },
+
       doAjax(val) {
         // Callback Event
         this.onBeforeAjax ? this.onBeforeAjax(val) : null
@@ -343,6 +354,7 @@
         // Init Ajax
         let ajax = new XMLHttpRequest();
         ajax.open('GET', `${this.url}?${params}`, true);
+        this.composeHeader(ajax)
         // Callback Event
         ajax.addEventListener('progress', (data) => {
           if(data.lengthComputable && this.onAjaxProgress) this.onAjaxProgress(data)
