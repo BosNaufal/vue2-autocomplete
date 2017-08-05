@@ -11,7 +11,7 @@ module.exports = {
   output: {
     path: __dirname + '/../dist/',
     publicPath: '../dist/',
-    filename: npm.name + '.js',
+    filename: 'vue2-autocomplete.js',
     libraryTarget: "umd",
     library: "Vue2Autocomplete"
   },
