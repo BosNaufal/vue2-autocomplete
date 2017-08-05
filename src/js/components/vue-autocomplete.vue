@@ -16,13 +16,12 @@
     />
 
     <div
-      :class="`${getClassName('list')} autocomplete transition autocomplete-list`"
-      v-show="showList"
+      :class="`${getClassName('list')} autocomplete autocomplete-list`"
+      v-show="showList && json.length"
     >
       <ul>
         <li
           v-for="(data, i) in json"
-          transition="showAll"
           :class="activeClass(i)"
         >
           <a
@@ -71,6 +70,15 @@
       initValue: {
         type: String,
         default: ""
+      },
+
+      // Manual List
+      options: Array,
+
+      // Filter After Get the data
+      filterByAnchor: {
+        type: Boolean,
+        default: true,
       },
 
       // Anchor of list
@@ -132,6 +140,21 @@
       };
     },
 
+    watch: {
+      options(newVal, oldVal) {
+        if (this.filterByAnchor) {
+          const { type, anchor } = this
+          const regex = new RegExp(`${type}`, 'i')
+          const filtered = newVal.filter((item) => {
+            const found = item[anchor].search(regex) !== -1
+            return found
+          })
+          this.json = filtered
+        } else {
+          this.json = newVal
+        }
+      }
+    },
 
     methods: {
 
@@ -284,9 +307,7 @@
         return params
       },
 
-      getData(val){
-        if (val.length < this.min || !this.url) return;
-        if (this.onShouldGetData) return this.manualGetData(val)
+      doAjax(val) {
         // Callback Event
         this.onBeforeAjax ? this.onBeforeAjax(val) : null
         // Compose Params
@@ -310,6 +331,12 @@
         ajax.send();
       },
 
+      getData(value){
+        if (value.length < this.min || !this.url) return;
+        if (this.onShouldGetData) this.manualGetData(value)
+        else this.doAjax(value)
+      },
+
       // Do Ajax Manually, so user can do whatever he want
       manualGetData(val) {
         const task = this.onShouldGetData(val)
@@ -319,6 +346,8 @@
           })
         }
       },
+
+
     },
 
     created(){

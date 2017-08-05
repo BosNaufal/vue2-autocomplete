@@ -91,27 +91,30 @@ Full Props
     url="http://localhost/proyek/goodmovie/api/api/v1/search"
     anchor="title"
     label="writer"
-    :on-select="getData"
+    :onSelect="getData"
+    :customParams="{ token: 'dev' }"
 
     id="custom id"
     className="custom class name"
     :classes="{ wrapper: 'form-wrapper', input: 'form-control', list: 'data-list', item: 'data-list-item' }"
     placeholder="placeholder"
-    :init-value="initial value"
-    :init-value="initial value"
-    :custom-params="{ token: 'dev' }"
+    :initValue="initial value"
+
+    :options="[]"
     :min="3"
     :debounce="2000"
+    :debounce="2000"
 
-    :on-input="callbackEvent"
-    :on-show="callbackEvent"
-    :on-blur="callbackEvent"
-    :on-hide="callbackEvent"
-    :on-focus="callbackEvent"
-    :on-select="callbackEvent"
-    :on-before-ajax="callbackEvent"
-    :on-ajax-progress="callbackEvent"
-    :on-ajax-loaded="callbackEvent">
+    :onShouldGetData="getData"
+    :onInput="callbackEvent"
+    :onShow="callbackEvent"
+    :onBlur="callbackEvent"
+    :onHide="callbackEvent"
+    :onFocus="callbackEvent"
+    :onSelect="callbackEvent"
+    :onBeforeAjax="callbackEvent"
+    :onAjaxProgress="callbackEvent"
+    :onAjaxLoaded="callbackEvent">
   </autocomplete>
 
 </template>
@@ -126,11 +129,11 @@ http://some-url.com/API/list?q=
 There are no filter and limit action inside the component. So, do it in your API logic.
 
 
-#### params (String)
-name of the search parameter to query in Ajax call. default is `q=`
+#### params (String: "q")
+name of the search parameter to query in Ajax call. default is `q`
 
 
-#### min (Number)
+#### min (Number: 0)
 Minimum input typed chars before performing the search query. default is `0`
 
 
@@ -141,6 +144,11 @@ It's a object property name that passed by your API. It's used for Anchor in sug
 #### label (String)
 Same as anchor but it's used for subtitle or description of list
 
+#### options (Array)
+Manual pass an Array of list options to the autocomplete.
+
+#### filterByAnchor (Boolean: true)
+When you're using options props, you can have autocomplete to filter your data. Or you can just show your data directly without any filter from autocomplete. The options will be filtered by anchor and it according to the user input.
 
 #### debounce (Number)
 Delay time before do the ajax for the data
@@ -191,21 +199,18 @@ While ajax is fetching the data
 When ajax process is totally loaded
 
 #### onShouldGetData (Function)
-Manually Process the whole ajax process. If it's a Promise, it should resolve the options for the list of autocomplete.
-<!-- If it isn't a Promise, you can manually pass the options to the props of autocomplete -->
+Manually Process the whole ajax process. If it's a Promise, it should resolve the options for the list of autocomplete. If it isn't a Promise, you can manually pass the options to the props of autocomplete
 ```html
 <autocomplete
-  url="https://maps.googleapis.com/maps/api/geocode/json?address="
   anchor="formatted_address"
   label="formatted_address"
   :onShouldGetData="getData"
-  :onSelect="handleSelect"
 >
 </autocomplete>
 ```
 ```javascript
 methods: {
-  getData(value) {
+  promise(value) {
     return new Promise((resolve, reject) => {
       let ajax = new XMLHttpRequest();
       ajax.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${value}`, true);
@@ -219,6 +224,21 @@ methods: {
       ajax.send();
     })
   },
+
+  nonPromise() {
+    getData(value) {
+      let ajax = new XMLHttpRequest();
+      ajax.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${value}`, true);
+      // On Done
+      ajax.addEventListener('loadend', (e) => {
+        const { responseText } = e.target
+        let response = JSON.parse(responseText);
+        // The options to pass in the autocomplete props
+        this.options = response.results;
+      });
+      ajax.send();
+    },
+  }
 }
 ```
 
