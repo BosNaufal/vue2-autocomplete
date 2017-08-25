@@ -96,6 +96,7 @@ Available Props
     :customHeaders="{ Authorization: 'bearer abc123' }"
 
 
+    :required="true"
     id="custom id"
     className="custom class name"
     :classes="{ wrapper: 'form-wrapper', input: 'form-control', list: 'data-list', item: 'data-list-item' }"
@@ -159,6 +160,9 @@ Autocomplete will ```encodeURIComponent``` all your params before ajax send, Whe
 #### debounce (Number)
 Delay time before do the ajax for the data
 
+
+#### required (Boolean)
+Required attribute for input
 
 #### placeholder (String)
 Placeholder for input
