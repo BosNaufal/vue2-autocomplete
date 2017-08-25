@@ -299,7 +299,7 @@
 
       activeClass(i){
         const focusClass = i === this.focusList ? 'focus-list' : ''
-        return `${this.getClassName('input')} ${focusClass}`
+        return `${focusClass}`
       },
 
       selectList(data){
