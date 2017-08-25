@@ -2,6 +2,7 @@
 <template>
   <div :class="`${getClassName('wrapper')} autocomplete-wrapper`">
     <input
+      ref="input"
       type="text"
       :id="id"
       :class="`${getClassName('input')} autocomplete-input`"
@@ -70,6 +71,7 @@
         })
       },
       placeholder: String,
+      required: Boolean,
 
       // Intial Value
       initValue: {
@@ -393,6 +395,10 @@
     created(){
       // Sync parent model with initValue Props
       this.type = this.initValue ? this.initValue : null
+    },
+
+    mounted() {
+      if (this.required) this.$refs.input.setAttribute("required", this.required)
     }
 
   }

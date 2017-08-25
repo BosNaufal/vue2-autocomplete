@@ -2,7 +2,7 @@
  * Copyright (c) 2016 Naufal Rabbani (http://github.com/BosNaufal),
  * ,Licensed Under MIT (http://opensource.org/licenses/MIT),
  * ,
- * ,Vue 2 Autocomplete @ Version 0.2.0,
+ * ,Vue 2 Autocomplete @ Version 0.2.1,
  * 
  */
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -184,6 +184,7 @@ if (false) {(function () {
 //
 //
 //
+//
 
 
 /*! Copyright (c) 2016 Naufal Rabbani (http://github.com/BosNaufal)
@@ -211,6 +212,7 @@ if (false) {(function () {
       }
     },
     placeholder: String,
+    required: Boolean,
 
     // Intial Value
     initValue: {
@@ -442,7 +444,7 @@ if (false) {(function () {
     },
     activeClass: function activeClass(i) {
       var focusClass = i === this.focusList ? 'focus-list' : '';
-      return this.getClassName('input') + " " + focusClass;
+      return "" + focusClass;
     },
     selectList: function selectList(data) {
       // Deep clone of the original object
@@ -539,6 +541,9 @@ if (false) {(function () {
   created: function created() {
     // Sync parent model with initValue Props
     this.type = this.initValue ? this.initValue : null;
+  },
+  mounted: function mounted() {
+    if (this.required) this.$refs.input.setAttribute("required", this.required);
   }
 });
 
@@ -664,6 +669,7 @@ var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._sel
       value: (_vm.type),
       expression: "type"
     }],
+    ref: "input",
     class: ((_vm.getClassName('input')) + " autocomplete-input"),
     attrs: {
       "type": "text",
